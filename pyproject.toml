@@ -5,7 +5,10 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "asyncio>=3.4.3",
     "langchain>=0.3.25",
     "langgraph>=0.4.8",
     "openai>=1.84.0",
+    "pymongo>=4.13.0",
+    "speechrecognition>=3.14.3",
 ]
