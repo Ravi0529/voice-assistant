@@ -1,13 +1,14 @@
 from dotenv import load_dotenv
+
+load_dotenv()
+
 import speech_recognition as sr
 from langgraph.checkpoint.mongodb import MongoDBSaver
-from graph import create_chat_graph
 import asyncio
 from openai.helpers import LocalAudioPlayer
 from openai import AsyncOpenAI
 import os
-
-load_dotenv()
+from graph import create_chat_graph
 
 openai = AsyncOpenAI()
 
@@ -24,7 +25,7 @@ def main():
 
         with sr.Microphone() as source:
             r.adjust_for_ambient_noise(source)
-            r.pause_threshold = 2
+            r.pause_threshold = 5
 
             while True:
                 print("Listening...")
