@@ -2,7 +2,12 @@
 
 import speech_recognition as sr
 from speech.stt import refined_stt
+import asyncio
+from openai.helpers import LocalAudioPlayer
+from openai import AsyncOpenAI
 import json
+
+openai = AsyncOpenAI()
 
 
 def main():
@@ -27,12 +32,24 @@ def main():
                 print("Refined text: ", refined_input)
 
                 if refined_input.strip().upper() == "EXIT":
-                    print("Exiting as requested. Goodbye!")
+                    asyncio.run(speak(text="Exiting as requested. Goodbye!"))
                     break
             except sr.UnknownValueError:
                 print("Apologies, the audio wasn't clear enough. Try Again!")
+                # asyncio.run(speak(text="Apologies, the audio wasn't clear enough. Try again!"))
             except sr.RequestError as e:
                 print("There was an issue retrieving results. Error: {0}".format(e))
+
+
+async def speak(text: str):
+    async with openai.audio.speech.with_streaming_response.create(
+        model="gpt-4o-mini-tts",
+        voice="coral",  # try other voices
+        input=text,
+        instructions="Speak in a cheerful and positive tone.",
+        response_format="pcm",
+    ) as response:
+        await LocalAudioPlayer().play(response)
 
 
 if __name__ == "__main__":
