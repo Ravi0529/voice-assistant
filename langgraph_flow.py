@@ -60,5 +60,5 @@ graph_builder.add_edge("chatbot", END)
 graph = graph_builder.compile()
 
 
-def create_chat_graph(checkpointer=None):
-    return graph_builder.compile(checkpointer=checkpointer)
+# def create_chat_graph(checkpointer=None):
+#     return graph_builder.compile(checkpointer=checkpointer)
