@@ -32,7 +32,8 @@ def main():
                 print("Refined text: ", refined_input)
 
                 if refined_input.strip().upper() == "EXIT":
-                    asyncio.run(speak(text="Exiting as requested. Goodbye!"))
+                    print("Exiting as requested. Goodbye!")
+                    # asyncio.run(speak(text="Exiting as requested. Goodbye!"))
                     break
             except sr.UnknownValueError:
                 print("Apologies, the audio wasn't clear enough. Try Again!")
