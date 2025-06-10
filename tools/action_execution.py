@@ -49,10 +49,10 @@ def open_application(app_name: str) -> str:
                     return f"Opening {app_name} using PATH..."
                 else:
                     return f"Could not find '{exec_name}' in system PATH."
-        elif platform.system() == "Darwin":  # macOS
+        elif platform.system() == "Darwin":
             subprocess.Popen(["open", "-a", exec_name])
             return f"Opening {app_name} on macOS..."
-        else:  # Linux and others
+        else:
             subprocess.Popen([exec_name])
             return f"Opening {app_name} on Linux..."
     except Exception as e:
