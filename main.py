@@ -5,6 +5,7 @@ from speech.stt import refined_stt
 import asyncio
 from openai.helpers import LocalAudioPlayer
 from openai import AsyncOpenAI
+from langgraph_flow import graph
 import json
 
 openai = AsyncOpenAI()
@@ -35,6 +36,12 @@ def main():
                     print("Exiting as requested. Goodbye!")
                     # asyncio.run(speak(text="Exiting as requested. Goodbye!"))
                     break
+
+                input_state = {"message": [{"role": "user", "content": refined_input}]}
+                result = graph.invoke(input_state)
+
+                final_message = result["messages"][-1].content
+                print("Assistant: ", final_message)
             except sr.UnknownValueError:
                 print("Apologies, the audio wasn't clear enough. Try Again!")
                 # asyncio.run(speak(text="Apologies, the audio wasn't clear enough. Try again!"))

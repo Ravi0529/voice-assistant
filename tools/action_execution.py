@@ -12,21 +12,45 @@ APP_MAP = {
     "vs code": "code",
     "spotify": "spotify.exe",
     "explorer": "explorer.exe",
+    "camera": "microsoft.windows.camera:",
 }
 
 
 def handle_utility_task(refined_input: str) -> str:
     """
-    Attempts to handle utility tasks like opening applications, searching the web or YouTube.
+    Handles utility tasks like opening apps, websites, or performing searches.
     """
     lower_input = refined_input.lower()
 
-    if "youtube" in lower_input and "search" in lower_input:
+    # Match known app names first (camera, calculator, etc.)
+    for app_keyword in APP_MAP:
+        if app_keyword in lower_input:
+            return open_application(app_keyword)
+
+    # YouTube Search
+    if "search" in lower_input and "youtube" in lower_input:
         return search_youtube(refined_input)
-    elif "search" in lower_input or "google" in lower_input:
+
+    # Web Search (e.g., "search Google for...")
+    if "search" in lower_input or "google" in lower_input:
         return web_search(refined_input)
-    else:
-        return open_application(refined_input)
+
+    # Direct domain open (e.g., github.com)
+    if "open" in lower_input and (".com" in lower_input or "github" in lower_input):
+        words = refined_input.split()
+        url = None
+        for word in words:
+            if "github" in word:
+                url = "https://github.com"
+            elif ".com" in word:
+                url = word if word.startswith("http") else f"https://{word}"
+            if url:
+                webbrowser.open(url)
+                return f"Opening {url}"
+        return "Couldn't extract a valid URL to open."
+
+    # Default fallback
+    return "I'm not sure how to handle this request."
 
 
 def open_application(app_name: str) -> str:

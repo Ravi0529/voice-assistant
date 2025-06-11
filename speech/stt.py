@@ -26,7 +26,16 @@ refined_input: { "refined_input": "I am trying to run a Python script, but it is
 user_input: Help me open up chair gpt  
 refined_input: { "refined_input": "Open ChatGPT in the Edge browser." }
 
-user_input: You can take rest now  
+user_input: Help me open up YouTube  
+refined_input: { "refined_input": "Open YouTube.com in a browser." }
+
+user_input: Show me guitar tutorials  
+refined_input: { "refined_input": "Search YouTube for guitar tutorials." }
+
+user_input: Look for cat videos  
+refined_input: { "refined_input": "Search Google for cat videos." }
+
+user_input: You can take rest now
 refined_input: { "refined_input": "EXIT" }
 """
 

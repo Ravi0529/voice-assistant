@@ -17,13 +17,13 @@ class State(TypedDict):
 
 @tool
 def utility_tool(refined_input: str) -> str:
-    """Handles app opening, Google or YouTube searches, and utility tasks."""
+    """Handles app opening, URL launching, Google/YouTube searching, or basic utility actions on the local system."""
     return handle_utility_task(refined_input)
 
 
 @tool
 def code_tool(refined_input: str) -> str:
-    """Handles code-related tasks like writing, reading, and structuring code."""
+    """Handles programming-related tasks like writing, reading, refactoring, or explaining code."""
     return handle_code_task(refined_input)
 
 
@@ -35,11 +35,19 @@ llm_with_tools = llm.bind_tools([utility_tool, code_tool])
 def chatbot(state: State):
     system_prompt = SystemMessage(
         content="""
-        You are a smart voice assistant. Classify the user's refined input into one of two types:
-        1. Utility task: open apps, search Google/YouTube, or perform basic local actions.
-        2. Code task: write, read, or structure code.
+        You are a smart voice assistant. You must classify the user's refined input into one of two types:
 
-        Use the appropriate tool for the task and return the response.
+        1. Utility task:
+        - Includes requests to open applications, websites, perform Google or YouTube searches, or launch system utilities.
+        - Examples: "Open YouTube", "Search for cats on Google", "Launch calculator".
+
+        2. Code task:
+        - Includes requests to generate, read, or structure programming code.
+        - Examples: "Write a Python function", "Read my JavaScript file", "Refactor this code".
+
+        You MUST choose the correct tool and call it directly. DO NOT generate a text reply yourself unless explicitly asked.
+
+        Return only the tool output.
         """
     )
     response = llm_with_tools.invoke([system_prompt] + state["messages"])
